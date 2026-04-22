@@ -1,0 +1,179 @@
+{
+  "id": "2026-04-22-120026",
+  "generated_at": "2026-04-22T04:00:26.510645719Z",
+  "language": "zh",
+  "pages": [
+    {
+      "slug": "1-xiang-mu-gai-shu-yu-jia-gou-ding-wei",
+      "title": "项目概述与架构定位",
+      "file": "1-xiang-mu-gai-shu-yu-jia-gou-ding-wei.md",
+      "section": "Get Started",
+      "level": "Beginner"
+    },
+    {
+      "slug": "2-kuai-su-kai-shi",
+      "title": "快速开始",
+      "file": "2-kuai-su-kai-shi.md",
+      "section": "Get Started",
+      "level": "Beginner"
+    },
+    {
+      "slug": "3-huan-jing-yi-lai-yu-qian-zhi-zhun-bei",
+      "title": "环境依赖与前置准备",
+      "file": "3-huan-jing-yi-lai-yu-qian-zhi-zhun-bei.md",
+      "section": "Get Started",
+      "level": "Beginner"
+    },
+    {
+      "slug": "4-gou-jian-xi-tong-yu-bian-yi-liu-cheng",
+      "title": "构建系统与编译流程",
+      "file": "4-gou-jian-xi-tong-yu-bian-yi-liu-cheng.md",
+      "section": "Get Started",
+      "level": "Intermediate"
+    },
+    {
+      "slug": "5-stream-executor-yu-she-bei-zhu-ce-ji-zhi",
+      "title": "Stream Executor 与设备注册机制",
+      "file": "5-stream-executor-yu-she-bei-zhu-ce-ji-zhi.md",
+      "section": "Deep Dive",
+      "group": "设备运行时架构",
+      "level": "Advanced"
+    },
+    {
+      "slug": "6-nei-cun-guan-li-yu-fen-pei-ce-lue",
+      "title": "内存管理与分配策略",
+      "file": "6-nei-cun-guan-li-yu-fen-pei-ce-lue.md",
+      "section": "Deep Dive",
+      "group": "设备运行时架构",
+      "level": "Advanced"
+    },
+    {
+      "slug": "7-kernel-zhu-ce-yu-suan-zi-fen-fa-liu-cheng",
+      "title": "Kernel 注册与算子分发流程",
+      "file": "7-kernel-zhu-ce-yu-suan-zi-fen-fa-liu-cheng.md",
+      "section": "Deep Dive",
+      "group": "设备运行时架构",
+      "level": "Advanced"
+    },
+    {
+      "slug": "8-ji-chu-shu-xue-yu-shu-zu-suan-zi",
+      "title": "基础数学与数组算子",
+      "file": "8-ji-chu-shu-xue-yu-shu-zu-suan-zi.md",
+      "section": "Deep Dive",
+      "group": "算子实现体系",
+      "level": "Intermediate"
+    },
+    {
+      "slug": "9-shen-jing-wang-luo-suan-zi",
+      "title": "神经网络算子",
+      "file": "9-shen-jing-wang-luo-suan-zi.md",
+      "section": "Deep Dive",
+      "group": "算子实现体系",
+      "level": "Intermediate"
+    },
+    {
+      "slug": "10-xun-lian-you-hua-qi-suan-zi",
+      "title": "训练优化器算子",
+      "file": "10-xun-lian-you-hua-qi-suan-zi.md",
+      "section": "Deep Dive",
+      "group": "算子实现体系",
+      "level": "Intermediate"
+    },
+    {
+      "slug": "11-sui-ji-zhuang-tai-yu-kong-zhi-liu-suan-zi",
+      "title": "随机、状态与控制流算子",
+      "file": "11-sui-ji-zhuang-tai-yu-kong-zhi-liu-suan-zi.md",
+      "section": "Deep Dive",
+      "group": "算子实现体系",
+      "level": "Intermediate"
+    },
+    {
+      "slug": "12-zi-ding-yi-musa-kernel-kai-fa-zhi-nan",
+      "title": "自定义 MUSA Kernel 开发指南",
+      "file": "12-zi-ding-yi-musa-kernel-kai-fa-zhi-nan.md",
+      "section": "Deep Dive",
+      "group": "算子实现体系",
+      "level": "Advanced"
+    },
+    {
+      "slug": "13-grappler-tu-you-hua-qi-jia-gou",
+      "title": "Grappler 图优化器架构",
+      "file": "13-grappler-tu-you-hua-qi-jia-gou.md",
+      "section": "Deep Dive",
+      "group": "图优化与融合",
+      "level": "Advanced"
+    },
+    {
+      "slug": "14-suan-zi-rong-he-mo-shi-xiang-jie",
+      "title": "算子融合模式详解",
+      "file": "14-suan-zi-rong-he-mo-shi-xiang-jie.md",
+      "section": "Deep Dive",
+      "group": "图优化与融合",
+      "level": "Advanced"
+    },
+    {
+      "slug": "15-zi-dong-hun-he-jing-du",
+      "title": "自动混合精度",
+      "file": "15-zi-dong-hun-he-jing-du.md",
+      "section": "Deep Dive",
+      "group": "图优化与融合",
+      "level": "Advanced"
+    },
+    {
+      "slug": "16-kernel-ji-shi-yu-xing-neng-pou-xi",
+      "title": "Kernel 计时与性能剖析",
+      "file": "16-kernel-ji-shi-yu-xing-neng-pou-xi.md",
+      "section": "Deep Dive",
+      "group": "调试与性能分析",
+      "level": "Intermediate"
+    },
+    {
+      "slug": "17-yao-ce-xi-tong-yu-quan-lian-lu-zhui-zong",
+      "title": "遥测系统与全链路追踪",
+      "file": "17-yao-ce-xi-tong-yu-quan-lian-lu-zhui-zong.md",
+      "section": "Deep Dive",
+      "group": "调试与性能分析",
+      "level": "Advanced"
+    },
+    {
+      "slug": "18-nei-cun-zhen-duan-yu-zang-shu-ju-jian-ce",
+      "title": "内存诊断与脏数据检测",
+      "file": "18-nei-cun-zhen-duan-yu-zang-shu-ju-jian-ce.md",
+      "section": "Deep Dive",
+      "group": "调试与性能分析",
+      "level": "Advanced"
+    },
+    {
+      "slug": "19-diao-shi-huan-jing-bian-liang-su-cha",
+      "title": "调试环境变量速查",
+      "file": "19-diao-shi-huan-jing-bian-liang-su-cha.md",
+      "section": "Deep Dive",
+      "group": "调试与性能分析",
+      "level": "Intermediate"
+    },
+    {
+      "slug": "20-ce-shi-kuang-jia-yu-gong-ju-lei",
+      "title": "测试框架与工具类",
+      "file": "20-ce-shi-kuang-jia-yu-gong-ju-lei.md",
+      "section": "Deep Dive",
+      "group": "测试与质量保障",
+      "level": "Intermediate"
+    },
+    {
+      "slug": "21-suan-zi-gong-neng-ce-shi",
+      "title": "算子功能测试",
+      "file": "21-suan-zi-gong-neng-ce-shi.md",
+      "section": "Deep Dive",
+      "group": "测试与质量保障",
+      "level": "Intermediate"
+    },
+    {
+      "slug": "22-rong-he-duan-dao-duan-ce-shi",
+      "title": "融合端到端测试",
+      "file": "22-rong-he-duan-dao-duan-ce-shi.md",
+      "section": "Deep Dive",
+      "group": "测试与质量保障",
+      "level": "Intermediate"
+    }
+  ]
+}
