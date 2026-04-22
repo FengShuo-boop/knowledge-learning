@@ -27,9 +27,6 @@ for page in data['pages']:
 
 # Markdown 简单转换函数
 def md_to_html(md):
-    # 转义 HTML
-    md = md.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')
-    
     # 代码块 (先处理，避免内部被转换)
     code_blocks = []
     def save_code(m):
@@ -41,6 +38,20 @@ def md_to_html(md):
             code_blocks.append(f'<pre><code>{code}</code></pre>')
         return f'__CODE_BLOCK_{len(code_blocks)-1}__'
     md = re.sub(r'```(\w+)?\n(.*?)```', save_code, md, flags=re.DOTALL)
+    
+    # 转义 HTML (排除已处理的代码块占位符)
+    def escape_html(text):
+        return text.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')
+    
+    # 分段处理：保护占位符不被转义
+    parts = []
+    last_end = 0
+    for m in re.finditer(r'__CODE_BLOCK_\d+__', md):
+        parts.append(escape_html(md[last_end:m.start()]))
+        parts.append(m.group())
+        last_end = m.end()
+    parts.append(escape_html(md[last_end:]))
+    md = ''.join(parts)
     
     # 行内代码
     md = re.sub(r'`([^`]+)`', r'<code>\1</code>', md)
