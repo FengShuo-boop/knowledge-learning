@@ -1,0 +1,207 @@
+{
+  "id": "2026-04-22-191741",
+  "generated_at": "2026-04-22T11:17:41.303277627Z",
+  "language": "zh",
+  "pages": [
+    {
+      "slug": "1-gai-lan",
+      "title": "概览",
+      "file": "1-gai-lan.md",
+      "section": "Get Started",
+      "level": "Beginner"
+    },
+    {
+      "slug": "2-kuai-su-ru-men",
+      "title": "快速入门",
+      "file": "2-kuai-su-ru-men.md",
+      "section": "Get Started",
+      "level": "Beginner"
+    },
+    {
+      "slug": "3-gpuji-suan-sheng-tai-quan-jing-tu",
+      "title": "GPU计算生态全景图",
+      "file": "3-gpuji-suan-sheng-tai-quan-jing-tu.md",
+      "section": "Get Started",
+      "level": "Beginner"
+    },
+    {
+      "slug": "4-can-ting-lei-bi-li-jie-gpusheng-tai-ceng-ci",
+      "title": "餐厅类比：理解GPU生态层次",
+      "file": "4-can-ting-lei-bi-li-jie-gpusheng-tai-ceng-ci.md",
+      "section": "Get Started",
+      "level": "Beginner"
+    },
+    {
+      "slug": "5-gpuyu-cpude-he-xin-chai-yi",
+      "title": "GPU与CPU的核心差异",
+      "file": "5-gpuyu-cpude-he-xin-chai-yi.md",
+      "section": "Get Started",
+      "level": "Beginner"
+    },
+    {
+      "slug": "6-cudayu-musa-liang-da-sheng-tai-gai-lan",
+      "title": "CUDA与MUSA：两大生态概览",
+      "file": "6-cudayu-musa-liang-da-sheng-tai-gai-lan.md",
+      "section": "Get Started",
+      "level": "Beginner"
+    },
+    {
+      "slug": "7-cudaying-jian-jia-gou-he-xin-smyu-nei-cun-ceng-ci",
+      "title": "CUDA硬件架构：核心、SM与内存层次",
+      "file": "7-cudaying-jian-jia-gou-he-xin-smyu-nei-cun-ceng-ci.md",
+      "section": "Deep Dive",
+      "group": "CUDA生态详解",
+      "level": "Intermediate"
+    },
+    {
+      "slug": "8-cudaqu-dong-yu-yun-xing-shi-driver-apiyu-runtime-api",
+      "title": "CUDA驱动与运行时：Driver API与Runtime API",
+      "file": "8-cudaqu-dong-yu-yun-xing-shi-driver-apiyu-runtime-api.md",
+      "section": "Deep Dive",
+      "group": "CUDA生态详解",
+      "level": "Intermediate"
+    },
+    {
+      "slug": "9-cudanei-cun-guan-li-fen-pei-chuan-shu-yu-nei-cun-lei-xing",
+      "title": "CUDA内存管理：分配、传输与内存类型",
+      "file": "9-cudanei-cun-guan-li-fen-pei-chuan-shu-yu-nei-cun-lei-xing.md",
+      "section": "Deep Dive",
+      "group": "CUDA生态详解",
+      "level": "Intermediate"
+    },
+    {
+      "slug": "10-cuda-toolkityu-nvccbian-yi-qi",
+      "title": "CUDA Toolkit与nvcc编译器",
+      "file": "10-cuda-toolkityu-nvccbian-yi-qi.md",
+      "section": "Deep Dive",
+      "group": "CUDA生态详解",
+      "level": "Intermediate"
+    },
+    {
+      "slug": "11-cudnnshen-du-shen-jing-wang-luo-ku",
+      "title": "cuDNN深度神经网络库",
+      "file": "11-cudnnshen-du-shen-jing-wang-luo-ku.md",
+      "section": "Deep Dive",
+      "group": "CUDA生态详解",
+      "level": "Intermediate"
+    },
+    {
+      "slug": "12-cublasyu-nccltong-xin-ku",
+      "title": "cuBLAS与NCCL通信库",
+      "file": "12-cublasyu-nccltong-xin-ku.md",
+      "section": "Deep Dive",
+      "group": "CUDA生态详解",
+      "level": "Intermediate"
+    },
+    {
+      "slug": "13-musajia-gou-she-ji-yu-cudajian-rong-xing",
+      "title": "MUSA架构设计与CUDA兼容性",
+      "file": "13-musajia-gou-she-ji-yu-cudajian-rong-xing.md",
+      "section": "Deep Dive",
+      "group": "MUSA生态详解",
+      "level": "Intermediate"
+    },
+    {
+      "slug": "14-musaqu-dong-yun-xing-shi-yu-mccbian-yi-qi",
+      "title": "MUSA驱动、运行时与mcc编译器",
+      "file": "14-musaqu-dong-yun-xing-shi-yu-mccbian-yi-qi.md",
+      "section": "Deep Dive",
+      "group": "MUSA生态详解",
+      "level": "Intermediate"
+    },
+    {
+      "slug": "15-mudnn-mublasyu-mccl",
+      "title": "muDNN、muBLAS与MCCL",
+      "file": "15-mudnn-mublasyu-mccl.md",
+      "section": "Deep Dive",
+      "group": "MUSA生态详解",
+      "level": "Intermediate"
+    },
+    {
+      "slug": "16-musa-kernelbian-xie-yu-xiang-liang-jia-fa",
+      "title": "MUSA Kernel编写与向量加法",
+      "file": "16-musa-kernelbian-xie-yu-xiang-liang-jia-fa.md",
+      "section": "Deep Dive",
+      "group": "MUSA生态详解",
+      "level": "Intermediate"
+    },
+    {
+      "slug": "17-gpusheng-tai-ceng-ji-yi-lai-guan-xi-tu",
+      "title": "GPU生态层级依赖关系图",
+      "file": "17-gpusheng-tai-ceng-ji-yi-lai-guan-xi-tu.md",
+      "section": "Deep Dive",
+      "group": "依赖关系与系统架构",
+      "level": "Intermediate"
+    },
+    {
+      "slug": "18-toolkit-sdkyu-du-li-ku-de-ding-wei",
+      "title": "Toolkit、SDK与独立库的定位",
+      "file": "18-toolkit-sdkyu-du-li-ku-de-ding-wei.md",
+      "section": "Deep Dive",
+      "group": "依赖关系与系统架构",
+      "level": "Intermediate"
+    },
+    {
+      "slug": "19-suan-zi-de-san-ceng-shi-xian-jia-gou",
+      "title": "算子的三层实现架构",
+      "file": "19-suan-zi-de-san-ceng-shi-xian-jia-gou.md",
+      "section": "Deep Dive",
+      "group": "依赖关系与系统架构",
+      "level": "Intermediate"
+    },
+    {
+      "slug": "20-ban-ben-pi-pei-yu-an-zhuang-ce-lue",
+      "title": "版本匹配与安装策略",
+      "file": "20-ban-ben-pi-pei-yu-an-zhuang-ce-lue.md",
+      "section": "Deep Dive",
+      "group": "依赖关系与系统架构",
+      "level": "Intermediate"
+    },
+    {
+      "slug": "21-ji-chu-xiang-liang-jia-fa-cudayu-musadui-bi",
+      "title": "基础向量加法：CUDA与MUSA对比",
+      "file": "21-ji-chu-xiang-liang-jia-fa-cudayu-musadui-bi.md",
+      "section": "Deep Dive",
+      "group": "代码对比与迁移实践",
+      "level": "Beginner"
+    },
+    {
+      "slug": "22-ju-zhen-cheng-fa-cublasyu-mublas",
+      "title": "矩阵乘法：cuBLAS与muBLAS",
+      "file": "22-ju-zhen-cheng-fa-cublasyu-mublas.md",
+      "section": "Deep Dive",
+      "group": "代码对比与迁移实践",
+      "level": "Intermediate"
+    },
+    {
+      "slug": "23-juan-ji-wang-luo-cudnnyu-mudnn",
+      "title": "卷积网络：cuDNN与muDNN",
+      "file": "23-juan-ji-wang-luo-cudnnyu-mudnn.md",
+      "section": "Deep Dive",
+      "group": "代码对比与迁移实践",
+      "level": "Intermediate"
+    },
+    {
+      "slug": "24-cudadao-musaqian-yi-ce-lue-yu-gong-ju",
+      "title": "CUDA到MUSA迁移策略与工具",
+      "file": "24-cudadao-musaqian-yi-ce-lue-yu-gong-ju.md",
+      "section": "Deep Dive",
+      "group": "代码对比与迁移实践",
+      "level": "Intermediate"
+    },
+    {
+      "slug": "25-chang-jian-wen-ti-jie-da",
+      "title": "常见问题解答",
+      "file": "25-chang-jian-wen-ti-jie-da.md",
+      "section": "Deep Dive",
+      "level": "Beginner"
+    },
+    {
+      "slug": "26-xue-xi-lu-jing-yu-tui-jian-zi-yuan",
+      "title": "学习路径与推荐资源",
+      "file": "26-xue-xi-lu-jing-yu-tui-jian-zi-yuan.md",
+      "section": "Deep Dive",
+      "level": "Beginner"
+    }
+  ]
+}

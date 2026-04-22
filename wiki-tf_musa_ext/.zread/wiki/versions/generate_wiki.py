@@ -27,36 +27,32 @@ for page in data['pages']:
 
 # Markdown 简单转换函数
 def md_to_html(md):
-    # 代码块 (先处理，避免内部被转换)
+    # 1. 先提取 mermaid 代码块（最先处理，避免任何转义）
+    mermaid_blocks = []
+    def save_mermaid(m):
+        code = m.group(1)
+        mermaid_blocks.append(f'<div class="mermaid">\n{code}</div>')
+        return f'__MERMAID_BLOCK_{len(mermaid_blocks)-1}__'
+    md = re.sub(r'```mermaid\n(.*?)```', save_mermaid, md, flags=re.DOTALL)
+    
+    # 2. 提取普通代码块
     code_blocks = []
     def save_code(m):
         lang = m.group(1) or ''
         code = m.group(2)
-        if lang == 'mermaid':
-            code_blocks.append(f'<div class="mermaid">{code}</div>')
-        else:
-            code_blocks.append(f'<pre><code>{code}</code></pre>')
+        # 转义代码块内部的 HTML
+        code = code.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')
+        code_blocks.append(f'<pre><code>{code}</code></pre>')
         return f'__CODE_BLOCK_{len(code_blocks)-1}__'
     md = re.sub(r'```(\w+)?\n(.*?)```', save_code, md, flags=re.DOTALL)
     
-    # 转义 HTML (排除已处理的代码块占位符)
-    def escape_html(text):
-        return text.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')
+    # 3. 转义剩余文本中的 HTML（代码块和 mermaid 已经被提取）
+    md = md.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')
     
-    # 分段处理：保护占位符不被转义
-    parts = []
-    last_end = 0
-    for m in re.finditer(r'__CODE_BLOCK_\d+__', md):
-        parts.append(escape_html(md[last_end:m.start()]))
-        parts.append(m.group())
-        last_end = m.end()
-    parts.append(escape_html(md[last_end:]))
-    md = ''.join(parts)
-    
-    # 行内代码
+    # 4. 行内代码
     md = re.sub(r'`([^`]+)`', r'<code>\1</code>', md)
     
-    # 标题
+    # 5. 标题
     md = re.sub(r'^###### (.+)$', r'<h6>\1</h6>', md, flags=re.MULTILINE)
     md = re.sub(r'^##### (.+)$', r'<h5>\1</h5>', md, flags=re.MULTILINE)
     md = re.sub(r'^#### (.+)$', r'<h4>\1</h4>', md, flags=re.MULTILINE)
@@ -64,24 +60,24 @@ def md_to_html(md):
     md = re.sub(r'^## (.+)$', r'<h2>\1</h2>', md, flags=re.MULTILINE)
     md = re.sub(r'^# (.+)$', r'<h1>\1</h1>', md, flags=re.MULTILINE)
     
-    # 粗体、斜体
+    # 6. 粗体、斜体
     md = re.sub(r'\*\*\*(.+?)\*\*\*', r'<strong><em>\1</em></strong>', md)
     md = re.sub(r'\*\*(.+?)\*\*', r'<strong>\1</strong>', md)
     md = re.sub(r'\*(.+?)\*', r'<em>\1</em>', md)
     
-    # 引用
+    # 7. 引用
     md = re.sub(r'^> (.+)$', r'<blockquote>\1</blockquote>', md, flags=re.MULTILINE)
     
-    # 链接 [text](url)
+    # 8. 链接 [text](url)
     md = re.sub(r'\[([^\]]+)\]\(([^)]+)\)', r'<a href="\2" target="_blank">\1</a>', md)
     
-    # 图片
+    # 9. 图片
     md = re.sub(r'!\[([^\]]*)\]\(([^)]+)\)', r'<img src="\2" alt="\1" style="max-width:100%;">', md)
     
-    # 水平线
+    # 10. 水平线
     md = re.sub(r'^---+$', r'<hr>', md, flags=re.MULTILINE)
     
-    # 表格处理
+    # 11. 表格处理
     lines = md.split('\n')
     result = []
     in_table = False
@@ -128,34 +124,64 @@ def md_to_html(md):
     
     md = '\n'.join(result)
     
-    # 无序列表
-    md = re.sub(r'^\s*-\s+(.+)$', r'<li>\1</li>', md, flags=re.MULTILINE)
+    # 12. 无序列表（跳过占位符行）
+    def list_repl(m):
+        line = m.group(0)
+        if '__MERMAID_BLOCK_' in line or '__CODE_BLOCK_' in line:
+            return line
+        return f'<li>{m.group(1)}</li>'
+    md = re.sub(r'^\s*-\s+(.+)$', list_repl, md, flags=re.MULTILINE)
     md = re.sub(r'(<li>.*?</li>\n)+', r'<ul>\g<0></ul>', md, flags=re.DOTALL)
     
-    # 有序列表
-    md = re.sub(r'^\s*\d+\.\s+(.+)$', r'<li>\1</li>', md, flags=re.MULTILINE)
+    # 13. 有序列表（跳过占位符行）
+    def ordered_list_repl(m):
+        line = m.group(0)
+        if '__MERMAID_BLOCK_' in line or '__CODE_BLOCK_' in line:
+            return line
+        return f'<li>{m.group(1)}</li>'
+    md = re.sub(r'^\s*\d+\.\s+(.+)$', ordered_list_repl, md, flags=re.MULTILINE)
     md = re.sub(r'(<li>.*?</li>\n)+', r'<ol>\g<0></ol>', md, flags=re.DOTALL)
     
-    # 段落（跳过占位符）
+    # 14. 恢复 mermaid 块（在段落处理之前）
+    for i, block in enumerate(mermaid_blocks):
+        md = md.replace(f'__MERMAID_BLOCK_{i}__', block)
+    
+    # 15. 恢复普通代码块
+    for i, block in enumerate(code_blocks):
+        md = md.replace(f'__CODE_BLOCK_{i}__', block)
+    
+    # 16. 段落处理（跳过已包裹在 HTML 标签中的内容）
+    # 先保护 mermaid 和代码块（它们可能包含空行）
+    protected_blocks = []
+    def protect_block(m):
+        protected_blocks.append(m.group(1))
+        return f'__PROTECTED_BLOCK_{len(protected_blocks)-1}__'
+    
+    # 保护 <div class="mermaid">...</div>
+    md = re.sub(r'(<div class="mermaid">.*?</div>)', protect_block, md, flags=re.DOTALL)
+    # 保护 <pre><code>...</code></pre>
+    md = re.sub(r'(<pre><code>.*?</code></pre>)', protect_block, md, flags=re.DOTALL)
+    
     paragraphs = md.split('\n\n')
     new_paras = []
     for p in paragraphs:
         p = p.strip()
         if not p:
             continue
-        # 跳过占位符，直接保留
-        if p.startswith('__CODE_BLOCK_'):
+        # 跳过已经以 HTML 标签开头的块（包括标题、列表、表格、mermaid、代码块等）
+        if p.startswith('<') and not p.startswith('<li>'):
             new_paras.append(p)
-        elif p.startswith('<') and not p.startswith('<li>'):
+        # 跳过保护块占位符
+        elif p.startswith('__PROTECTED_BLOCK_'):
             new_paras.append(p)
         else:
             new_paras.append(f'<p>{p}</p>')
     
     md = '\n\n'.join(new_paras)
     
-    # 恢复代码块
-    for i, block in enumerate(code_blocks):
-        md = md.replace(f'__CODE_BLOCK_{i}__', block)
+    # 恢复被保护的块
+    for i, block in enumerate(protected_blocks):
+        md = md.replace(f'__PROTECTED_BLOCK_{i}__', block)
     
     return md
 
@@ -494,25 +520,6 @@ html += '''        </main>
         }
         window.addEventListener('hashchange', handleHash);
         handleHash();
-    </script>
-    <script type="module">
-        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
-        mermaid.initialize({ startOnLoad: false, theme: 'default' });
-        
-        // 在内容切换后重新渲染 mermaid
-        function renderMermaid() {
-            mermaid.run({ querySelector: '.mermaid' });
-        }
-        
-        // 初始渲染
-        renderMermaid();
-        
-        // 监听导航点击，在内容显示后渲染
-        document.querySelectorAll('.nav-item').forEach(item => {
-            item.addEventListener('click', function() {
-                setTimeout(renderMermaid, 50);
-            });
-        });
     </script>
 </body>
 </html>'''

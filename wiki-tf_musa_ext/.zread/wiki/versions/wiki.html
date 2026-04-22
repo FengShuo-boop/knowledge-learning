@@ -332,7 +332,8 @@
 
 <p>下图展示了插件在 TensorFlow 运行时中的位置以及内部三层架构：</p>
 
-<div class="mermaid">flowchart TB
+<div class="mermaid">
+flowchart TB
     subgraph TF["TensorFlow 运行时"]
         direction TB
         Session["Session / GraphExecutor"]
@@ -514,7 +515,8 @@
 
 <p>以下 Mermaid 流程图展示了构建脚本的内部决策路径，帮助初学者理解每一步的输入与输出。</p>
 
-<div class="mermaid">flowchart TD
+<div class="mermaid">
+flowchart TD
     A[执行 ./build.sh] --> B{参数解析}
     B -->|release 或无参数| C[CMAKE_BUILD_TYPE=Release]
     B -->|debug| D[CMAKE_BUILD_TYPE=Debug<br/>MUSA_KERNEL_DEBUG=ON]
@@ -693,7 +695,7 @@ bash test/run_all_tests.sh
 
 <p>为了保证代码风格一致并降低合入门槛，项目配置了 <code>pre-commit</code> 钩子与 <code>clang-format</code>。<code>pre-commit</code> 会在提交前自动检查合并冲突标记、尾随空格以及 C/C++ 代码格式；<code>clang-format</code> 版本建议与配置中声明的 <code>v18.1.8</code> 保持一致，避免本地格式化结果与 CI 检查出现差异。安装方式如下：</p>
 
-<pre><code>pip install pre-commit>=3.0.0
+<pre><code>pip install pre-commit&gt;=3.0.0
 pre-commit install
 </code></pre>
 
@@ -703,7 +705,8 @@ pre-commit install
 
 <p>下图展示从零开始准备开发环境的推荐顺序。每一步完成后，建议先验证再进入下一步，以便在问题发生时就地定位。</p>
 
-<div class="mermaid">flowchart TD
+<div class="mermaid">
+flowchart TD
     A[确认 MUSA GPU 硬件] --> B[安装 MUSA SDK<br/>默认路径 /usr/local/musa]
     B --> C[安装构建工具链<br/>CMake >= 3.10, GCC, Make]
     C --> D[创建 Python 虚拟环境]
@@ -760,7 +763,8 @@ A: <code>musa_test_utils.py</code> 在加载插件后会检查 <code>tf.config.l
 
 <p>整个构建系统的顶层架构可以用「<strong>双编译器、单产物</strong>」来概括：C++ 主机端代码由系统 GCC/g++ 处理，设备端 <code>.mu</code> 核函数由 MUSA 专用编译器 <code>mcc</code> 处理，最终通过 CMake 的 <code>add_library(SHARED)</code> 统一链接成可被 <code>tf.load_library()</code> 动态加载的插件共享库。</p>
 
-<div class="mermaid">graph LR
+<div class="mermaid">
+graph LR
     subgraph 源码层["源码层 musa_ext/"]
         A1[.cc 文件<br/>174 个]
         A2[.mu 文件<br/>36 个]
@@ -806,7 +810,8 @@ A: <code>musa_test_utils.py</code> 在加载插件后会检查 <code>tf.config.l
 
 <p>开发者只需执行 <code>./build.sh</code> 即可触发完整的编译流水线。脚本内部通过解析命令行参数区分 <strong>Release</strong> 与 <strong>Debug</strong> 两种模式，随后自动完成清理、配置、编译与验证。</p>
 
-<div class="mermaid">flowchart TD
+<div class="mermaid">
+flowchart TD
     Start([执行 build.sh]) --> Parse{解析参数}
     Parse -->|默认 / release| Rel[CMAKE_BUILD_TYPE=Release<br/>MUSA_KERNEL_DEBUG=OFF]
     Parse -->|debug| Deb[CMAKE_BUILD_TYPE=Debug<br/>MUSA_KERNEL_DEBUG=ON]
@@ -871,7 +876,8 @@ A: <code>musa_test_utils.py</code> 在加载插件后会检查 <code>tf.config.l
 
 <p>代码合入主分支前，GitHub Actions 工作流 <code>pr-validation.yml</code> 会在自托管的 <code>musa-gpu</code> Runner 上执行「编译 → 产物归档 → 集成测试」的完整验证链。其中的 <code>build_current</code> Job 复用与本地完全一致的构建入口，但额外注入了 CI 环境所需的 GCC 11 头文件搜索路径。</p>
 
-<div class="mermaid">flowchart LR
+<div class="mermaid">
+flowchart LR
     subgraph PR流水线["PR Validation Pipeline"]
         A[prepare_metadata] --> B[format check]
         A --> C[build_current]
@@ -934,7 +940,8 @@ A: <code>musa_test_utils.py</code> 在加载插件后会检查 <code>tf.config.l
 
 <p>MUSA 扩展采用<strong>双层注册架构</strong>：底层通过 Stream Executor 的 <code>Platform</code> 与 <code>StreamExecutor</code> 抽象屏蔽 MUSA Runtime 差异，上层通过 TensorFlow 的 <code>DeviceFactory</code> 将 MUSA 设备接入图执行运行时。两者之间由 <code>MusaDevice</code> 与 <code>MusaDeviceContext</code> 完成桥接。</p>
 
-<div class="mermaid">graph TB
+<div class="mermaid">
+graph TB
     subgraph TF_Runtime["TensorFlow Runtime"]
         DF[MusaDeviceFactory<br/>device_register.cc]
         MD[MusaDevice<br/>musa_device.cc]
@@ -1147,7 +1154,8 @@ Sources: <a href="musa_ext/mu/device/musa_event_mgr.h#L46-L117" target="_blank">
 
 <p>MUSA 设备的内存管理在逻辑上可划分为四个层次，每一层解决不同粒度的生命周期与一致性问题。</p>
 
-<div class="mermaid">graph TD
+<div class="mermaid">
+graph TD
     A[TensorFlow Framework<br/>BFCAllocator] --> B[MusaSubAllocator<br/>musaMalloc/musaFree]
     A --> C[MusaHostSubAllocator<br/>musaHostAlloc/musaFreeHost]
     D[GPUPinnedMemoryPool<br/>Bounce Buffer] --> C
@@ -1177,11 +1185,11 @@ Sources: <a href="musa_ext/mu/device/musa_event_mgr.h#L46-L117" target="_blank">
 <code>MusaDevice</code> 在构造时有一个关键时序：<strong>必须在创建 MUDNN Handle、MUBLAS Handle 以及任何流之前获取空闲内存</strong>。这是因为 MUDNN 与 MUBLAS 的初始化本身会占用显存，若先初始化库再查空闲内存，<code>bfc_memory_limit</code> 会被低估，导致 BFCAllocator 的预留量不足。
 
 <pre><code>size_t total_memory = 0, free_memory = 0;
-musaMemGetInfo(&free_memory, &total_memory);
+musaMemGetInfo(&amp;free_memory, &amp;total_memory);
 
-size_t bfc_memory_limit = attributes.memory_limit() > 0
+size_t bfc_memory_limit = attributes.memory_limit() &gt; 0
                               ? attributes.memory_limit()
-                              : static_cast<size_t>(free_memory * 0.9);
+                              : static_cast&lt;size_t&gt;(free_memory * 0.9);
 </code></pre>
 
 <p>获取到上限后，<code>MusaDevice</code> 以 <code>allow_growth=false</code>（预先申请一大块）和 <code>garbage_collection=true</code>（允许回收未使用的 Chunk）实例化 <code>BFCAllocator</code>。</p>
@@ -1194,8 +1202,8 @@ size_t bfc_memory_limit = attributes.memory_limit() > 0
 <ol><li><strong>最小对齐 256 字节</strong>：<code>musaMalloc</code> 天然保证 256 字节对齐，但 BFCAllocator 可能请求更大的对齐值。实现中通过向上取整到对齐边界来满足。</li>
 <li><strong>溢出检查</strong>：若 <code>(num_bytes + alignment - 1)</code> 发生回绕，<code>alloc_size &lt; num_bytes</code> 将直接返回 <code>nullptr</code>，防止后续分配错误大小的内存。</li>
 </ol>
-<pre><code>size_t alloc_size = (num_bytes + alignment - 1) & ~(alignment - 1);
-if (alloc_size < num_bytes) {
+<pre><code>size_t alloc_size = (num_bytes + alignment - 1) &amp; ~(alignment - 1);
+if (alloc_size &lt; num_bytes) {
   return nullptr;  // Overflow check
 }
 </code></pre>
@@ -1253,7 +1261,7 @@ if (alloc_size < num_bytes) {
 <p>这里存在一个极易忽视的竞态：<strong><code>musaStreamWaitEvent</code> 只是将等待命令入队，函数返回时该命令可能尚未执行</strong>。若在此刻立即 <code>musaEventDestroy</code>，等待命令可能被忽略，导致计算内核与 H2D 拷贝并发访问同一块内存，产生脏数据。为此，插件通过 <code>MusaEventMgr::ThenExecute</code> 将 Event 的销毁推迟到 <code>h2d_stream_</code> 真正完成该等待之后。</p>
 
 <pre><code>if (event_mgr_ != nullptr) {
-  event_mgr_->ThenExecute(h2d_stream_, [sync_event, device_id]() {
+  event_mgr_-&gt;ThenExecute(h2d_stream_, [sync_event, device_id]() {
     musaSetDevice(device_id);
     musaEventDestroy(sync_event);
   });
@@ -1339,7 +1347,8 @@ Sources: <a href="musa_ext/mu/device/musa_device.cc#L471#L535" target="_blank">m
 
 <p>MUSA 插件采用<strong>延迟注册（Deferred Registration）+ 多维匹配分发</strong>的架构。插件编译为 <code>libmusa_plugin.so</code> 后，由 TensorFlow 运行时通过 C API 入口 <code>TF_InitKernel</code> 触发所有算子的批量注册；当 Graph 执行时，TensorFlow 根据算子名称、数据类型与设备标签的三维约束，将 Op 分发到对应的 <code>MusaOpKernel</code> 实现，最终通过 muDNN 或自定义 MUSA Kernel 在设备上完成计算。</p>
 
-<div class="mermaid">flowchart TD
+<div class="mermaid">
+flowchart TD
     A[TensorFlow 加载 libmusa_plugin.so] --> B[调用 TF_InitKernel]
     B --> C[遍历 RegVector 执行所有注册函数]
     C --> D[REGISTER_KERNEL_BUILDER<br/>Name + Device("MUSA") + TypeConstraint]
@@ -1452,7 +1461,8 @@ Sources: <a href="musa_ext/mu/device/musa_device.cc#L471#L535" target="_blank">m
 
 <p>所有算子共享同一套<strong>三层架构</strong>：顶层的 <code>MusaOpKernel</code> 继承自 TensorFlow 的 <code>OpKernel</code>，负责输入校验、输出分配与生命周期管理；中间层通过 <code>CreateMTensor()</code> 将 <code>tensorflow::Tensor</code> 封装为 muDNN 的 <code>mTensor</code>，并调用 muDNN 原语完成计算；对于性能敏感的热点路径，则下沉到第三层的自定义 <code>.mu</code> Kernel，直接通过 MUSA Runtime 发射线程网格。</p>
 
-<div class="mermaid">flowchart TB
+<div class="mermaid">
+flowchart TB
     subgraph Host["Host Side (C++ OpKernel)"]
         A[TensorFlow Graph Executor] --> B[MusaOpKernel]
         B --> C{IsExpensive?}
@@ -1686,7 +1696,8 @@ def _test_add(self, shape_x, shape_y, dtype, rtol=1e-5, atol=1e-8):
 
 <p>MUSA 侧的神经网络算子统一继承自 <code>MusaOpKernel</code> 基类，该基类在标准 TensorFlow <code>OpKernel</code> 之上封装了 MUSA 设备句柄获取、张量格式推断等公共能力。算子的执行路径可抽象为三层：<strong>图节点调度 → muDNN 原语选择/自定义核函数启动 → 设备流执行</strong>。对于计算轻量的逐元素算子，通常直接调用 muDNN 的 <code>Unary</code> 或 <code>Binary</code> 接口；对于卷积、矩阵乘等计算密集型算子，则通过 muDNN 的高级 API 完成算法选择与工作区分配；而部分融合算子或 muDNN 未直接支持的运算，则退回到手写 <code>.mu</code> Kernel 实现。</p>
 
-<div class="mermaid">graph TD
+<div class="mermaid">
+graph TD
     A[TensorFlow Graph Node] --> B[REGISTER_KERNEL_BUILDER<br/>Device(MUSA)]
     B --> C[MusaOpKernel::Compute]
     C --> D{算子特征}
@@ -1812,7 +1823,8 @@ def _test_add(self, shape_x, shape_y, dtype, rtol=1e-5, atol=1e-8):
 
 <p>本项目当前共实现了 <strong>8 类训练优化器</strong>、覆盖 <strong>14 个 TensorFlow 算子</strong>，分为密集更新（dense）与稀疏更新（sparse）两种场景。所有算子均注册到 <code>DEVICE_MTGPU</code>（即 MUSA 设备），并同时支持 Resource Variable（推荐）与 Ref Variable（兼容）两种变量形态。下图展示了训练优化器算子在整个 MUSA 插件中的层级位置及其与周边模块的依赖关系。</p>
 
-<div class="mermaid">graph TD
+<div class="mermaid">
+graph TD
     subgraph 训练优化器算子
         A[SGD<br/>GradientDescent]
         B[Adam]
@@ -1905,7 +1917,8 @@ def _test_add(self, shape_x, shape_y, dtype, rtol=1e-5, atol=1e-8):
 
 <p>每个优化器算子都继承自 <code>MusaOpKernel</code>，后者在构造时通过 <code>GetMusaFormat</code> 获取张量格式（通常是 NCHW 或 NHWC），并将其保存到成员变量 <code>format_</code> 中。算子通过 <code>CreateMTensor</code> 将 TensorFlow 的 <code>Tensor</code> 对象封装为 MuDNN 的 <code>mTensor</code> 对象，从而与 MuDNN 原语对接。</p>
 
-<div class="mermaid">flowchart LR
+<div class="mermaid">
+flowchart LR
     A[TensorFlow Tensor] -->|CreateMTensor| B[mTensor]
     B -->|Binary::Run| C[MuDNN 执行]
     D[GetHandleByCtx] -->|返回| E[musa::dnn::Handle]
@@ -1918,13 +1931,13 @@ def _test_add(self, shape_x, shape_y, dtype, rtol=1e-5, atol=1e-8):
 
 <p>对于 Resource Variable 版本，算子首先需要调用 <code>LookupResource</code> 根据输入的 <code>resource</code> handle 查找 <code>Var</code> 对象。当算子涉及多个变量（如 Adam 的 <code>var</code>、<code>m</code>、<code>v</code>）时，必须按照 <strong>mutex 指针地址的全序关系</strong>加锁，以防止多线程场景下的死锁。<code>MutexUnlocker</code> 是一个轻量的 RAII 包装器，在析构时自动释放锁。</p>
 
-<pre><code>std::vector<mutex*> mutexes;
-add_mutex(var->mu());
-add_mutex(m->mu());
-add_mutex(v->mu());
+<pre><code>std::vector&lt;mutex*&gt; mutexes;
+add_mutex(var-&gt;mu());
+add_mutex(m-&gt;mu());
+add_mutex(v-&gt;mu());
 std::sort(mutexes.begin(), mutexes.end());
-for (mutex* mu : mutexes) { mu->lock(); }
-std::vector<MutexUnlocker> locks;
+for (mutex* mu : mutexes) { mu-&gt;lock(); }
+std::vector&lt;MutexUnlocker&gt; locks;
 for (mutex* mu : mutexes) { locks.emplace_back(mu); }
 </code></pre>
 
@@ -1950,10 +1963,10 @@ for (mutex* mu : mutexes) { locks.emplace_back(mu); }
 
 <p>在 <code>.mu</code> 自定义核函数中，无论存储类型是 <code>float</code>、<code>half</code> 还是 <code>bfloat16</code>，所有中间计算都在 <code>float</code>（或 <code>double</code>）寄存器中完成。以 Nadam 核函数为例，它通过一对 <code>LoadFloat</code> / <code>StoreFloat</code> 内联函数将低精度数据加载为 <code>float</code>，完成全套 Adam 变体计算后再写回原始精度。这种模式有效抑制了混合精度训练中的梯度下溢和更新抖动。</p>
 
-<pre><code>float grad_val = LoadFloat(&grad[tid]);
-float m_val    = LoadFloat(&m[tid]);
+<pre><code>float grad_val = LoadFloat(&amp;grad[tid]);
+float m_val    = LoadFloat(&amp;m[tid]);
 // ... 全部在 float 寄存器中计算
-StoreFloat(&var[tid], var_val);
+StoreFloat(&amp;var[tid], var_val);
 </code></pre>
 
 <p>FTRL 与 Sparse AdaGrad 的 <code>.mu</code> 实现也遵循同一套 <code>LoadFloat</code> / <code>StoreFloat</code> 模板特化范式，通过 <code>__half2float</code> / <code>__float2half</code> 以及 <code>uint16_t</code> 位运算分别处理 <code>half</code> 与 <code>bfloat16</code>。</p>
@@ -2119,7 +2132,8 @@ Sources: <a href="musa_ext/kernels/state/musa_resource_variable_op.cc#L42-L215" 
 
 <p>下图展示了随机、状态与控制流三类算子在 MUSA 后端中的交互关系。随机算子通过流式异步拷贝或设备端 Kernel 直接填充张量；状态算子通过 <code>Var</code> 资源维护跨步的可变内存；控制流算子则决定张量在不同分支间的路由与循环迭代。</p>
 
-<div class="mermaid">flowchart TB
+<div class="mermaid">
+flowchart TB
     subgraph RANDOM["随机数生成"]
         A[Host Seed / GuardedPhiloxRandom] -->|async H2D| B[StatelessRandomUniform]
         A -->|memcpy counter/key| C[RandomUniform Kernel]
@@ -2179,7 +2193,8 @@ Sources: <a href="musa_ext/kernels/state/musa_resource_variable_op.cc#L42-L215" 
 
 <p>下图展示了从源码到运行时调用的完整链路：</p>
 
-<div class="mermaid">flowchart TD
+<div class="mermaid">
+flowchart TD
     subgraph 源码层
         A[算子 .cc 主机代码] -->|调用| B[.mu 设备内核<br/>__global__ + launcher]
         A -->|调用| C[muDNN API<br/>mUnary/mBinary/mReduce]
@@ -2242,19 +2257,19 @@ Sources: <a href="musa_ext/kernels/state/musa_resource_variable_op.cc#L42-L215" 
 
 <p>ReLU 的实现展示了 muDNN 封装模式的最小可行代码。其核心逻辑仅涉及输入校验、输出分配、muDNN <code>Unary</code> 算子配置与执行：</p>
 
-<pre><code>template <typename T>
+<pre><code>template &lt;typename T&gt;
 class MusaReluOp : public MusaOpKernel {
  public:
   using MusaOpKernel::MusaOpKernel;
   bool IsExpensive() override { return false; }
 
   void Compute(OpKernelContext* ctx) override {
-    const Tensor& input = ctx->input(0);
+    const Tensor&amp; input = ctx-&gt;input(0);
     Tensor* output = nullptr;
-    OP_REQUIRES_OK(ctx, ctx->allocate_output(0, input.shape(), &output));
+    OP_REQUIRES_OK(ctx, ctx-&gt;allocate_output(0, input.shape(), &amp;output));
     if (input.NumElements() == 0) return;
 
-    auto& handle = GetHandleByCtx(ctx);
+    auto&amp; handle = GetHandleByCtx(ctx);
     mTensor t_input = CreateMTensor(input, format_);
     mTensor t_output = CreateMTensor(*output, format_);
 
@@ -2267,8 +2282,8 @@ class MusaReluOp : public MusaOpKernel {
   }
 };
 
-REGISTER_KERNEL_BUILDER(Name("Relu").Device("MUSA").TypeConstraint<float>("T"),
-                        MusaReluOp<float>);
+REGISTER_KERNEL_BUILDER(Name("Relu").Device("MUSA").TypeConstraint&lt;float&gt;("T"),
+                        MusaReluOp&lt;float&gt;);
 </code></pre>
 
 <p>上述代码中值得注意的细节包括：一是重写了 <code>IsExpensive()</code> 返回 <code>false</code>，提示 TensorFlow 调度器该算子计算开销低，有利于内联调度减少调度延迟；二是通过 <code>OP_REQUIRES_OK</code> 和 <code>OP_REQUIRES</code> 进行错误处理，符合 TensorFlow 的 Status 驱动编程规范；三是显式处理了 <code>NumElements() == 0</code> 的空张量场景，避免向 muDNN 提交无意义的工作。</p>
@@ -2308,7 +2323,7 @@ REGISTER_KERNEL_BUILDER(Name("Relu").Device("MUSA").TypeConstraint<float>("T"),
 __global__ void AddContiguousKernelFloat4(
     const float4* lhs, const float4* rhs, float4* output, int64_t vec_size) {
   const int64_t idx = blockIdx.x * blockDim.x + threadIdx.x;
-  if (idx < vec_size) {
+  if (idx &lt; vec_size) {
     const float4 l = lhs[idx];
     const float4 r = rhs[idx];
     float4 out;
@@ -2443,7 +2458,8 @@ MUSA_KERNEL_TRACE_END("Kernel");
 
 <p>整个优化管线采用<strong>严格的三阶段串行执行模型</strong>：先进行数据格式转换（Layout），再进行数值精度转换（AMP），最后执行子图模式匹配与融合（Fusion）。这种顺序确保了布局敏感算子在正确的数据格式下被识别，且融合模式在最终精度形态下完成匹配。</p>
 
-<div class="mermaid">flowchart TD
+<div class="mermaid">
+flowchart TD
     A[原始 GraphDef] --> B{包含 MUSA 节点?}
     B -->|否| Z[直接返回原图]
     B -->|是| C[GraphDefDumper 导出初始图]
@@ -2498,7 +2514,8 @@ MUSA_KERNEL_TRACE_END("Kernel");
 
 <p>这种设计保证了<strong>高优先级模式优先应用</strong>，同时通过反复迭代处理融合后产生的新可融合子图。例如 LayerNorm 融合依赖于底层的 Normalize 先被融合，而固定点迭代恰好支持这种层级依赖。</p>
 
-<div class="mermaid">flowchart LR
+<div class="mermaid">
+flowchart LR
     subgraph 优先级分组
         P1[Priority=100] --> P2[Priority=90]
         P2 --> P3[Priority=1]
@@ -2582,7 +2599,8 @@ MUSA_KERNEL_TRACE_END("Kernel");
 
 <p>整个融合系统由三层组成：图优化器调度层、模式管理层与后端 Kernel 执行层。MusaGraphOptimizer 作为 Grappler 自定义优化器，在布局优化（Layout）与自动混合精度（AMP）之后执行融合阶段（Fusion Pass）。该阶段通过 FusionPatternManager 获取所有已注册的模式，按优先级分组并进行多轮扫描，直至达到不动点（Fixed Point）。一旦模式匹配成功，其 Apply 方法会修改 GraphDef，将目标子图替换为融合算子节点；后端则通过 REGISTER_KERNEL_BUILDER 将融合算子名映射到 MUSA 设备上的具体实现。</p>
 
-<div class="mermaid">flowchart TD
+<div class="mermaid">
+flowchart TD
     A[TensorFlow GraphDef] --> B[MusaGraphOptimizer]
     B --> C[Layout优化]
     C --> D[AMP优化]
@@ -2742,7 +2760,8 @@ MUSA_KERNEL_TRACE_END("Kernel");
 
 <code>MusaGraphOptimizer</code> 将完整的图优化过程组织为三个严格串行的阶段：首先是 <strong>Layout 优化</strong>（NHWC 到 NCHW 的自动转换），其次是 <strong>AMP 优化</strong>（FP32 到低精度的自动转换），最后是 <strong>Fusion 优化</strong>（LayerNorm、GELU 等子图融合）。这一顺序经过精心设计——Layout 优化先于 AMP 执行，确保卷积等布局敏感算子在 NCHW 格式下完成低精度转换；Fusion 优化位于 AMP 之后，使得融合模式匹配可以直接在低精度图上进行，避免了精度切换导致的子图断裂。
 
-<div class="mermaid">graph LR
+<div class="mermaid">
+graph LR
     A[输入 GraphDef] --> B[Layout Optimizer<br/>NHWC→NCHW]
     B --> C[AMP Optimizer<br/>FP32→FP16/BF16]
     C --> D[Fusion Optimizer<br/>LayerNorm/GELU等]
@@ -2769,7 +2788,8 @@ MUSA_KERNEL_TRACE_END("Kernel");
 
 <code>OptimizeAMP</code> 方法执行两阶段图变换：首先是静态分析阶段 <code>AnalyzeGraphForAMP</code>，为每个节点标注转换标记；随后是实际改写阶段 <code>ConvertNodeToLowPrecision</code>。改写过程遵循"输入前插 Cast、输出后插 Cast"的原则。具体而言，对于被标记的 FP32 节点，优化器将其 <code>T</code> 或 <code>dtype</code> 属性修改为 <code>DT_HALF</code> 或 <code>DT_BFLOAT16</code>；在其每个非控制边输入前插入一个 <code>Cast(FP32 → target)</code> 节点；在节点自身输出后插入一个 <code>Cast(target → FP32)</code> 节点，并将所有下游消费者的输入边重定向至该输出 Cast。这种设计使得单个算子内部以低精度执行，而与图其余部分的交互仍保持 FP32 语义，最大限度兼容现有训练流程。
 
-<div class="mermaid">graph TD
+<div class="mermaid">
+graph TD
     A1[FP32 输入 1] -->|CastF2Lower| B1[FP16/BF16 输入 1]
     A2[FP32 输入 2] -->|CastF2Lower| B2[FP16/BF16 输入 2]
     B1 --> C[目标算子<br/>MatMul/Conv2D<br/>T=DT_HALF/DT_BFLOAT16]
@@ -2835,7 +2855,8 @@ MUSA_KERNEL_TRACE_END("Kernel");
 
 <p>整个性能剖析体系由三层构成：<strong>编译时开关层</strong>决定计时代码是否编译进产物；<strong>C++ 内核埋点层</strong>通过宏在算子 Compute 函数中注入 <code>musaEvent</code> 设备计时；<strong>Python 基准测试层</strong>则在 Session 级别对比融合前后或不同实现路径的端到端耗时。</p>
 
-<div class="mermaid">flowchart TB
+<div class="mermaid">
+flowchart TB
     subgraph Build["编译时开关层"]
         A["./build.sh debug"] --> B["CMakeLists.txt<br/>-DMUSA_KERNEL_DEBUG=ON"]
         B --> C["logging.h 中计时宏生效"]
@@ -2899,11 +2920,11 @@ MUSA_KERNEL_TRACE_END("Kernel");
 <pre><code>void Compute(OpKernelContext* ctx) override {
     MUSA_KERNEL_TIMING_GUARD_WITH_NAME(ctx, "MusaGelu");
 
-    const Tensor& input = ctx->input(0);
+    const Tensor&amp; input = ctx-&gt;input(0);
     Tensor* output = nullptr;
 
     MUSA_KERNEL_TRACE_START("Mem Alloc");
-    OP_REQUIRES_OK(ctx, ctx->allocate_output(0, input.shape(), &output));
+    OP_REQUIRES_OK(ctx, ctx-&gt;allocate_output(0, input.shape(), &amp;output));
     MUSA_KERNEL_TRACE_END("Mem Alloc");
 
     // ... 省略参数配置 ...
@@ -2919,22 +2940,22 @@ MUSA_KERNEL_TRACE_END("Kernel");
 <pre><code>MUSA_KERNEL_TIMING_GUARD(ctx);  // 自动使用 "Conv2D" 作为 Kernel 名
 
 MUSA_KERNEL_TRACE_START("Mem Alloc");
-OP_REQUIRES_OK(ctx, ctx->allocate_output(0, output_shape, &output));
+OP_REQUIRES_OK(ctx, ctx-&gt;allocate_output(0, output_shape, &amp;output));
 MUSA_KERNEL_TRACE_END("Mem Alloc");
 
 if (data_format_ == FORMAT_NHWC) {
     MUSA_KERNEL_TRACE_START("Kernel");
-    OP_REQUIRES_OK(ctx, RunMusaConv2D<T>(...));
+    OP_REQUIRES_OK(ctx, RunMusaConv2D&lt;T&gt;(...));
     MUSA_KERNEL_TRACE_END("Kernel");
     return;
 }
 
 // NCHW 回退路径：额外记录两次 Permute
 MUSA_KERNEL_TRACE_START("Kernel");
-OP_REQUIRES_OK(ctx, PermuteTensorOnMusa(ctx, input, &input_nhwc, ...));
+OP_REQUIRES_OK(ctx, PermuteTensorOnMusa(ctx, input, &amp;input_nhwc, ...));
 MUSA_KERNEL_TRACE_END("Kernel");
 MUSA_KERNEL_TRACE_START("Kernel");
-OP_REQUIRES_OK(ctx, RunMusaConv2D<T>(ctx, input_nhwc, ...));
+OP_REQUIRES_OK(ctx, RunMusaConv2D&lt;T&gt;(ctx, input_nhwc, ...));
 MUSA_KERNEL_TRACE_END("Kernel");
 MUSA_KERNEL_TRACE_START("Kernel");
 OP_REQUIRES_OK(ctx, PermuteTensorOnMusa(ctx, output_nhwc, output, ...));
@@ -3011,7 +3032,8 @@ python test_runner.py --single matmul_op_test.py
 
 <code>shifted_affine_map_benchmark.py</code> 则进一步扩展为三路对比：<code>primitive_chain</code>（禁用图优化器的多算子链）、<code>fused_graph</code>（启用 musa_graph_optimizer 的自动融合路径）与 <code>custom_op</code>（直接调用自定义算子）。三路均经过相同的 warmup 与 measure 迭代，并计算 p50、p90 延迟分位数，确保融合结论在不同数据分布下均具备统计显著性。
 
-<div class="mermaid">flowchart LR
+<div class="mermaid">
+flowchart LR
     A["提取真实形状<br/>from GraphDef"] --> B["构造对比子图"]
     B --> C["Warmup<br/>消除冷启动"]
     C --> D["Measure Loop<br/>time.perf_counter"]
@@ -3091,7 +3113,8 @@ Sources: <a href="docs/DEBUG_GUIDE.md#L207-L299" target="_blank">docs/DEBUG_GUID
 
 <p>以下是一个从构建到诊断的完整闭环，适用于定位生产环境中发现的算子瓶颈：</p>
 
-<div class="mermaid">flowchart TB
+<div class="mermaid">
+flowchart TB
     A["发现瓶颈<br/>端到端延迟异常"] --> B["./build.sh debug"]
     B --> C["export MUSA_TIMING_KERNEL_LEVEL=2"]
     C --> D["运行对应算子测试"]
@@ -3120,7 +3143,8 @@ Sources: <a href="docs/DEBUG_GUIDE.md#L207-L299" target="_blank">docs/DEBUG_GUID
 
 <p>遥测系统采用<strong>单例管理器 + 异步日志线程 + 环形内存索引</strong>的三层架构，所有事件采集均为非阻塞操作，对正常计算路径的性能影响被严格限制在纳秒级原子操作与条件判断范围内。</p>
 
-<div class="mermaid">graph TB
+<div class="mermaid">
+graph TB
     subgraph "事件生产层"
         A[MusaSubAllocator<br/>Alloc/Free]
         B[MusaDeviceContext<br/>MemcpyH2D/MemcpyD2H]
@@ -3218,7 +3242,8 @@ Sources: <a href="docs/DEBUG_GUIDE.md#L207-L299" target="_blank">docs/DEBUG_GUID
 
 <p>理解遥测事件在实际数据路径中的产生时机，是有效利用该系统进行故障定位的前提。以下以一次典型的 <strong>CPU→GPU 数据拷贝 → Kernel 计算 → GPU→CPU 结果回传</strong> 流程为例，展示遥测事件的产生序列。</p>
 
-<div class="mermaid">sequenceDiagram
+<div class="mermaid">
+sequenceDiagram
     participant CPU as Host
     participant H2D as H2D Stream
     participant COMP as Compute Stream
@@ -3259,10 +3284,10 @@ Sources: <a href="docs/DEBUG_GUIDE.md#L207-L299" target="_blank">docs/DEBUG_GUID
 <p>当脏数据检测报出具体内存地址时，可通过 <code>BacktraceByAddress</code> 查询该地址所在页面最近的 N 次操作，返回结果按时间倒序排列（最近的操作在前）。</p>
 
 <pre><code>auto records = MusaTelemetry::Instance().BacktraceByAddress(addr, 10);
-for (const auto& r : records) {
-  LOG(INFO) << "Op: " << r.op_name
-            << " Time: " << r.timestamp_ns
-            << " Stream: " << r.stream_id;
+for (const auto&amp; r : records) {
+  LOG(INFO) &lt;&lt; "Op: " &lt;&lt; r.op_name
+            &lt;&lt; " Time: " &lt;&lt; r.timestamp_ns
+            &lt;&lt; " Stream: " &lt;&lt; r.stream_id;
 }
 </code></pre>
 
@@ -3298,7 +3323,7 @@ for (const auto& r : records) {
 
 <pre><code>MUSA_KERNEL_TRACE_START("Mem Alloc");
 Tensor* out = nullptr;
-OP_REQUIRES_OK(ctx, ctx->allocate_output(0, shape, &out));
+OP_REQUIRES_OK(ctx, ctx-&gt;allocate_output(0, shape, &amp;out));
 MUSA_KERNEL_TRACE_END("Mem Alloc");
 
 MUSA_KERNEL_TRACE_START("Kernel");
@@ -3438,7 +3463,8 @@ Sources: <a href="musa_ext/mu/device/musa_telemetry.cc#L288-L311" target="_blank
 
 <p>Sources: <a href="musa_ext/mu/device/musa_telemetry.h#L328-L334" target="_blank">musa_telemetry.h</a>, <a href="musa_ext/mu/device/musa_telemetry.cc#L401-L418" target="_blank">musa_telemetry.cc</a></p>
 
-<div class="mermaid">flowchart TD
+<div class="mermaid">
+flowchart TD
     A[检测到 NaN / Inf] --> B{MUSA_TELEMETRY_ENABLED?}
     B -->|是| C[生成 dirty_data_detected 事件]
     C --> D[强制 FlushEvents]
@@ -3519,8 +3545,8 @@ export MUSA_TELEMETRY_BUFFER_SIZE=50000
 
 <strong>步骤五：生成取证报告</strong>。若怀疑是分配器层面的 UAF 或双重释放，调用取证 API 获取详细历史：
 
-<pre><code>LOG(INFO) << GetMemoryForensicsReport(ptr);
-LOG(INFO) << GetMemoryStats().uaf_detected;
+<pre><code>LOG(INFO) &lt;&lt; GetMemoryForensicsReport(ptr);
+LOG(INFO) &lt;&lt; GetMemoryStats().uaf_detected;
 </code></pre>
 
 <p>Sources: <a href="docs/DEBUG_GUIDE.md#L155-L175" target="_blank">docs/DEBUG_GUIDE.md</a>, <a href="musa_ext/mu/device/musa_allocator.h#L508-L516" target="_blank">musa_allocator.h</a></p>
@@ -3589,7 +3615,8 @@ LOG(INFO) << GetMemoryStats().uaf_detected;
 
 <p>面对一个具体的异常或性能问题，选择正确的环境变量组合往往比逐个尝试更高效。下图展示了一条从<strong>问题现象</strong>到<strong>推荐环境变量集合</strong>的决策路径。</p>
 
-<div class="mermaid">flowchart TD
+<div class="mermaid">
+flowchart TD
     A[遇到运行问题] --> B{问题类型?}
     B -->|性能低于预期| C[Kernel 计时]
     B -->|图优化结果不符预期| D[图 Dump & Grappler 日志]
@@ -3687,7 +3714,7 @@ export MUSA_TIMING_KERNEL_NAME=ALL
 export MUSA_TIMING_KERNEL_STATS=1
 
 # 3. 运行目标测试并保留日志
-python test/test_runner.py --single matmul_op_test.py 2>&1 | tee /tmp/matmul_timing.log
+python test/test_runner.py --single matmul_op_test.py 2&gt;&amp;1 | tee /tmp/matmul_timing.log
 </code></pre>
 
 <p>Sources: <a href="docs/DEBUG_GUIDE.md#L62-L75" target="_blank">docs/DEBUG_GUIDE.md</a></p>
@@ -3733,7 +3760,7 @@ export MUSA_TELEMETRY_FLUSH_MS=50
 export MUSA_TELEMETRY_STACK_TRACE=1
 
 # 运行整网或目标测试
-python your_training_script.py 2>&1 | tee /tmp/run.log
+python your_training_script.py 2&gt;&amp;1 | tee /tmp/run.log
 
 # 事后检索脏数据事件
 grep "dirty_data_detected" /tmp/musa_telemetry.json
@@ -3816,7 +3843,8 @@ unset TF_CPP_MIN_LOG_LEVEL TF_CPP_VMODULE
 
 <p>下图展示了从测试文件到执行输出的完整数据流。测试文件统一继承 <code>MUSATestCase</code>，运行器通过 glob 模式发现用例，最终生成包含通过率、耗时和失败明细的格式化摘要。</p>
 
-<div class="mermaid">flowchart LR
+<div class="mermaid">
+flowchart LR
     subgraph A[测试文件]
         A1[ops/*_op_test.py]
         A2[fusion/*_fusion_test.py]
@@ -3991,7 +4019,8 @@ python test_runner.py
 
 <p>整个算子功能测试体系由三层构成：<strong>测试基类与工具层</strong>提供跨设备比对与插件加载能力，<strong>算子测试用例层</strong>覆盖 120 余个独立算子，<strong>测试运行器层</strong>负责批量发现、进度可视化和结果汇总。三层之间通过标准的 Python <code>unittest</code> 协议衔接，同时针对 MUSA 场景做了大量定制化增强，包括彩色进度条、PrettyTable 汇总表、双输出日志以及设备缺失自动跳过机制。</p>
 
-<div class="mermaid">flowchart TB
+<div class="mermaid">
+flowchart TB
     subgraph Runner["测试运行器层 (test_runner.py)"]
         A[ argparse CLI 解析 ] --> B[ 测试发现与动态加载 ]
         B --> C[ CustomTestRunner ]
@@ -4172,7 +4201,8 @@ class {OpName}OpTest(MUSATestCase):
 
 <p>整个融合测试体系建立在三层基础设施之上：<strong>插件加载层</strong>、<strong>基类抽象层</strong> 与 <strong>自定义执行层</strong>。</p>
 
-<div class="mermaid">flowchart TD
+<div class="mermaid">
+flowchart TD
     A[musa_test_utils.py<br/>加载 libmusa_plugin.so] --> B[MUSATestCase<br/>设备检测 / CPU-MUSA 结果对比]
     B --> C[test/fusion/*_fusion_test.py<br/>构造子图 / 启用 musa_graph_optimizer]
     C --> D[tf.compat.v1.Session<br/>执行并获取 partition_graphs]
@@ -4375,25 +4405,6 @@ rw.arithmetic_optimization = rewriter_config_pb2.RewriterConfig.OFF
         }
         window.addEventListener('hashchange', handleHash);
         handleHash();
-    </script>
-    <script type="module">
-        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
-        mermaid.initialize({ startOnLoad: false, theme: 'default' });
-        
-        // 在内容切换后重新渲染 mermaid
-        function renderMermaid() {
-            mermaid.run({ querySelector: '.mermaid' });
-        }
-        
-        // 初始渲染
-        renderMermaid();
-        
-        // 监听导航点击，在内容显示后渲染
-        document.querySelectorAll('.nav-item').forEach(item => {
-            item.addEventListener('click', function() {
-                setTimeout(renderMermaid, 50);
-            });
-        });
     </script>
 </body>
 </html>
