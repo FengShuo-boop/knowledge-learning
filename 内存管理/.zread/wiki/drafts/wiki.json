@@ -1,0 +1,196 @@
+{
+  "id": "2026-04-22-155935",
+  "generated_at": "2026-04-22T07:59:35.754052926Z",
+  "language": "zh",
+  "pages": [
+    {
+      "slug": "1-jiao-cheng-gai-shu-yu-xue-xi-jie-zhi",
+      "title": "教程概述与学习价值",
+      "file": "1-jiao-cheng-gai-shu-yu-xue-xi-jie-zhi.md",
+      "section": "快速开始",
+      "level": "Beginner"
+    },
+    {
+      "slug": "2-yue-du-lu-jing-yu-kuai-su-dao-hang",
+      "title": "阅读路径与快速导航",
+      "file": "2-yue-du-lu-jing-yu-kuai-su-dao-hang.md",
+      "section": "快速开始",
+      "level": "Beginner"
+    },
+    {
+      "slug": "3-wu-da-he-xin-gai-nian-su-lan",
+      "title": "五大核心概念速览",
+      "file": "3-wu-da-he-xin-gai-nian-su-lan.md",
+      "section": "快速开始",
+      "level": "Beginner"
+    },
+    {
+      "slug": "4-gpuying-jian-nei-cun-ceng-ci-jie-xi",
+      "title": "GPU硬件内存层次解析",
+      "file": "4-gpuying-jian-nei-cun-ceng-ci-jie-xi.md",
+      "section": "深入理解",
+      "group": "硬件基础与内存架构",
+      "level": "Intermediate"
+    },
+    {
+      "slug": "5-di-zhi-kong-jian-ye-biao-yu-xu-ni-nei-cun",
+      "title": "地址空间、页表与虚拟内存",
+      "file": "5-di-zhi-kong-jian-ye-biao-yu-xu-ni-nei-cun.md",
+      "section": "深入理解",
+      "group": "硬件基础与内存架构",
+      "level": "Intermediate"
+    },
+    {
+      "slug": "6-cpuyu-gpunei-cun-si-wei-chai-yi",
+      "title": "CPU与GPU内存思维差异",
+      "file": "6-cpuyu-gpunei-cun-si-wei-chai-yi.md",
+      "section": "深入理解",
+      "group": "硬件基础与内存架构",
+      "level": "Intermediate"
+    },
+    {
+      "slug": "7-nei-cun-fen-pei-quan-lian-lu-cong-cudamallocdao-qu-dong",
+      "title": "内存分配全链路：从cudaMalloc到驱动",
+      "file": "7-nei-cun-fen-pei-quan-lian-lu-cong-cudamallocdao-qu-dong.md",
+      "section": "深入理解",
+      "group": "CUDA内存管理与数据流动",
+      "level": "Intermediate"
+    },
+    {
+      "slug": "8-cpuyu-gpushu-ju-liu-dong-ji-zhi",
+      "title": "CPU与GPU数据流动机制",
+      "file": "8-cpuyu-gpushu-ju-liu-dong-ji-zhi.md",
+      "section": "深入理解",
+      "group": "CUDA内存管理与数据流动",
+      "level": "Intermediate"
+    },
+    {
+      "slug": "9-cudanei-cun-apiquan-jing-yu-xuan-xing",
+      "title": "CUDA内存API全景与选型",
+      "file": "9-cudanei-cun-apiquan-jing-yu-xuan-xing.md",
+      "section": "深入理解",
+      "group": "CUDA内存管理与数据流动",
+      "level": "Intermediate"
+    },
+    {
+      "slug": "10-fang-wen-mo-shi-you-hua-he-bing-fang-wen-yu-ju-bu-xing",
+      "title": "访问模式优化：合并访问与局部性",
+      "file": "10-fang-wen-mo-shi-you-hua-he-bing-fang-wen-yu-ju-bu-xing.md",
+      "section": "深入理解",
+      "group": "CUDA内存管理与数据流动",
+      "level": "Advanced"
+    },
+    {
+      "slug": "11-nei-cun-chi-yu-huan-cun-fen-pei-qi-yuan-li",
+      "title": "内存池与缓存分配器原理",
+      "file": "11-nei-cun-chi-yu-huan-cun-fen-pei-qi-yuan-li.md",
+      "section": "深入理解",
+      "group": "高级内存机制",
+      "level": "Advanced"
+    },
+    {
+      "slug": "12-tong-nei-cun-uvmji-zhi-yu-dai-jie",
+      "title": "统一内存UVM机制与代价",
+      "file": "12-tong-nei-cun-uvmji-zhi-yu-dai-jie.md",
+      "section": "深入理解",
+      "group": "高级内存机制",
+      "level": "Advanced"
+    },
+    {
+      "slug": "13-xun-lian-chang-jing-gpunei-cun-gou-cheng-fen-xi",
+      "title": "训练场景GPU内存构成分析",
+      "file": "13-xun-lian-chang-jing-gpunei-cun-gou-cheng-fen-xi.md",
+      "section": "深入理解",
+      "group": "深度学习训练",
+      "level": "Intermediate"
+    },
+    {
+      "slug": "14-xun-lian-you-hua-hun-he-jing-du-zhong-ji-suan-yu-zero",
+      "title": "训练优化：混合精度、重计算与ZeRO",
+      "file": "14-xun-lian-you-hua-hun-he-jing-du-zhong-ji-suan-yu-zero.md",
+      "section": "深入理解",
+      "group": "深度学习训练",
+      "level": "Advanced"
+    },
+    {
+      "slug": "15-tui-li-chang-jing-gpunei-cun-guan-li",
+      "title": "推理场景GPU内存管理",
+      "file": "15-tui-li-chang-jing-gpunei-cun-guan-li.md",
+      "section": "深入理解",
+      "group": "深度学习推理",
+      "level": "Intermediate"
+    },
+    {
+      "slug": "16-tui-li-you-hua-liang-hua-fen-ye-huan-cun-yu-lian-xu-pi-chu-li",
+      "title": "推理优化：量化、分页缓存与连续批处理",
+      "file": "16-tui-li-you-hua-liang-hua-fen-ye-huan-cun-yu-lian-xu-pi-chu-li.md",
+      "section": "深入理解",
+      "group": "深度学习推理",
+      "level": "Advanced"
+    },
+    {
+      "slug": "17-tong-yong-cuda-c-nei-cun-she-ji-mo-shi",
+      "title": "通用CUDA/C++内存设计模式",
+      "file": "17-tong-yong-cuda-c-nei-cun-she-ji-mo-shi.md",
+      "section": "深入理解",
+      "group": "通用开发与图形渲染",
+      "level": "Intermediate"
+    },
+    {
+      "slug": "18-tu-xing-xuan-ran-zhong-de-gpunei-cun-guan-li",
+      "title": "图形渲染中的GPU内存管理",
+      "file": "18-tu-xing-xuan-ran-zhong-de-gpunei-cun-guan-li.md",
+      "section": "深入理解",
+      "group": "通用开发与图形渲染",
+      "level": "Intermediate"
+    },
+    {
+      "slug": "19-duo-gpu-duo-jin-cheng-yu-duo-zu-hu-huan-jing",
+      "title": "多GPU、多进程与多租户环境",
+      "file": "19-duo-gpu-duo-jin-cheng-yu-duo-zu-hu-huan-jing.md",
+      "section": "深入理解",
+      "group": "多GPU与系统环境",
+      "level": "Advanced"
+    },
+    {
+      "slug": "20-chang-jian-gu-zhang-yu-dian-xing-wu-qu",
+      "title": "常见故障与典型误区",
+      "file": "20-chang-jian-gu-zhang-yu-dian-xing-wu-qu.md",
+      "section": "深入理解",
+      "group": "故障排查与实战优化",
+      "level": "Intermediate"
+    },
+    {
+      "slug": "21-pai-zhang-fang-fa-yu-gong-ju-lian",
+      "title": "排障方法与工具链",
+      "file": "21-pai-zhang-fang-fa-yu-gong-ju-lian.md",
+      "section": "深入理解",
+      "group": "故障排查与实战优化",
+      "level": "Intermediate"
+    },
+    {
+      "slug": "22-shi-zhan-you-hua-qing-dan",
+      "title": "实战优化清单",
+      "file": "22-shi-zhan-you-hua-qing-dan.md",
+      "section": "深入理解",
+      "group": "故障排查与实战优化",
+      "level": "Advanced"
+    },
+    {
+      "slug": "23-tong-xin-zhi-mo-xing-qie-cong-zhang-dan-chu-fa",
+      "title": "统一心智模型：一切从\"账单\"出发",
+      "file": "23-tong-xin-zhi-mo-xing-qie-cong-zhang-dan-chu-fa.md",
+      "section": "深入理解",
+      "group": "心智模型与参考资料",
+      "level": "Beginner"
+    },
+    {
+      "slug": "24-zhu-yu-biao-yu-apisu-cha-shou-ce",
+      "title": "术语表与API速查手册",
+      "file": "24-zhu-yu-biao-yu-apisu-cha-shou-ce.md",
+      "section": "深入理解",
+      "group": "心智模型与参考资料",
+      "level": "Beginner"
+    }
+  ]
+}
