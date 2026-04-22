@@ -35,7 +35,10 @@ def md_to_html(md):
     def save_code(m):
         lang = m.group(1) or ''
         code = m.group(2)
-        code_blocks.append(f'<pre><code>{code}</code></pre>')
+        if lang == 'mermaid':
+            code_blocks.append(f'<div class="mermaid">{code}</div>')
+        else:
+            code_blocks.append(f'<pre><code>{code}</code></pre>')
         return f'__CODE_BLOCK_{len(code_blocks)-1}__'
     md = re.sub(r'```(\w+)?\n(.*?)```', save_code, md, flags=re.DOTALL)
     
@@ -121,9 +124,6 @@ def md_to_html(md):
     # 有序列表
     md = re.sub(r'^\s*\d+\.\s+(.+)$', r'<li>\1</li>', md, flags=re.MULTILINE)
     md = re.sub(r'(<li>.*?</li>\n)+', r'<ol>\g<0></ol>', md, flags=re.DOTALL)
-    
-    # mermaid
-    md = re.sub(r'```mermaid\n(.*?)```', r'<div class="mermaid">\1</div>', md, flags=re.DOTALL)
     
     # 恢复代码块
     for i, block in enumerate(code_blocks):
@@ -478,6 +478,25 @@ html += '''        </main>
         }
         window.addEventListener('hashchange', handleHash);
         handleHash();
+    </script>
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ startOnLoad: false, theme: 'default' });
+        
+        // 在内容切换后重新渲染 mermaid
+        function renderMermaid() {
+            mermaid.run({ querySelector: '.mermaid' });
+        }
+        
+        // 初始渲染
+        renderMermaid();
+        
+        // 监听导航点击，在内容显示后渲染
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', function() {
+                setTimeout(renderMermaid, 50);
+            });
+        });
     </script>
 </body>
 </html>'''
