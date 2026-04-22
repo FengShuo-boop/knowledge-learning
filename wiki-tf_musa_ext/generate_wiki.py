@@ -136,23 +136,28 @@ def md_to_html(md):
     md = re.sub(r'^\s*\d+\.\s+(.+)$', r'<li>\1</li>', md, flags=re.MULTILINE)
     md = re.sub(r'(<li>.*?</li>\n)+', r'<ol>\g<0></ol>', md, flags=re.DOTALL)
     
-    # 恢复代码块
-    for i, block in enumerate(code_blocks):
-        md = md.replace(f'__CODE_BLOCK_{i}__', block)
-    
-    # 段落
+    # 段落（跳过占位符）
     paragraphs = md.split('\n\n')
     new_paras = []
     for p in paragraphs:
         p = p.strip()
         if not p:
             continue
-        if p.startswith('<') and not p.startswith('<li>'):
+        # 跳过占位符，直接保留
+        if p.startswith('__CODE_BLOCK_'):
+            new_paras.append(p)
+        elif p.startswith('<') and not p.startswith('<li>'):
             new_paras.append(p)
         else:
             new_paras.append(f'<p>{p}</p>')
     
-    return '\n\n'.join(new_paras)
+    md = '\n\n'.join(new_paras)
+    
+    # 恢复代码块
+    for i, block in enumerate(code_blocks):
+        md = md.replace(f'__CODE_BLOCK_{i}__', block)
+    
+    return md
 
 # 生成 HTML
 html = '''<!DOCTYPE html>
