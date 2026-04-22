@@ -1,45 +1,65 @@
 # knowledge-learning
 
-本仓库包含多个知识模块，每个模块都使用 [ZRead](https://github.com/FengShuo-boop/zread) 工具进行管理和阅读。
+本仓库包含多个知识模块，每个模块都使用 [ZRead](https://github.com/ZreadAI/zread) 工具进行管理和阅读。
 
 ## 仓库结构
 
 | 目录 | 说明 | ZRead 打开方式 |
 |------|------|----------------|
-| [`内存管理/`](内存管理/) | GPU 内存管理深度教程 | `zread 内存管理` |
-| [`GPU生态指南/`](GPU生态指南/) | GPU 计算生态（CUDA / MUSA）全景指南 | `zread GPU生态指南` |
-| [`horovod/`](horovod/) | Horovod + MCCL 分布式训练指南 | `zread horovod` |
-| [`wiki-tf_musa_ext/`](wiki-tf_musa_ext/) | TensorFlow MUSA 扩展（tf_musa_ext）Wiki | `zread wiki-tf_musa_ext` |
+| [`内存管理/`](内存管理/) | GPU 内存管理深度教程 | `cd 内存管理 && zread browse` |
+| [`GPU生态指南/`](GPU生态指南/) | GPU 计算生态（CUDA / MUSA）全景指南 | `cd GPU生态指南 && zread browse` |
+| [`horovod/`](horovod/) | Horovod + MCCL 分布式训练指南 | `cd horovod && zread browse` |
+| [`wiki-tf_musa_ext/`](wiki-tf_musa_ext/) | TensorFlow MUSA 扩展（tf_musa_ext）Wiki | `cd wiki-tf_musa_ext && zread browse` |
 
 ## 使用 ZRead 阅读
 
-### 1. 安装 ZRead
+### 1. 安装 ZRead CLI
 
-确保已安装 ZRead 工具：
+你可以通过 npm、homebrew 或 winget 安装：
 
+**npm 安装**（适用于 Windows、Linux 和 macOS）
 ```bash
-# 从源码安装
-git clone https://github.com/FengShuo-boop/zread.git
-cd zread
-pip install -e .
+npm install -g zread_cli
+```
+
+**homebrew 安装**（适用于 Linux 和 macOS）
+```bash
+brew tap ZreadAI/homebrew-tap
+brew install zread
+```
+
+**winget 安装**（适用于 Windows 10/11）
+```bash
+winget install ZhipuAI.Zread
 ```
 
 ### 2. 阅读各模块
 
-在仓库根目录下，直接使用目录名打开对应的知识模块：
+进入任意模块目录后，直接运行 `zread`，CLI 会根据当前状态推荐下一步操作：
 
 ```bash
 # 阅读 GPU 内存管理教程
-zread 内存管理
+cd 内存管理
+zread
 
 # 阅读 GPU 生态指南
-zread GPU生态指南
+cd GPU生态指南
+zread
 
 # 阅读 Horovod 分布式训练指南
-zread horovod
+cd horovod
+zread
 
 # 阅读 TensorFlow MUSA 扩展 Wiki
-zread wiki-tf_musa_ext
+cd wiki-tf_musa_ext
+zread
+```
+
+如果已经生成过文档，想在浏览器中直接打开：
+
+```bash
+cd <目录名>
+zread browse
 ```
 
 ### 3. ZRead 工作原理
@@ -53,17 +73,33 @@ ZRead 会查找目录下的 `.zread/wiki/` 路径：
 - `内存管理/.zread/wiki/current` 指向 `versions/2026-04-22-155935`
 - `GPU生态指南/.zread/wiki/drafts/wiki.json` 直接定义草稿页面列表
 
+生成完成后，文档会保存在项目目录下的 `.zread/` 中：
+
+```
+.zread/
+  state.json
+  wiki/
+    current              # 当前版本文档
+    versions/            # 历史版本文档
+    drafts/              # 生成完成前的草稿文档
+```
+
 ### 4. 常用 ZRead 命令
 
+| 命令 | 功能说明 |
+|------|----------|
+| `zread` | CLI 默认入口，根据当前环境自动推荐下一步操作 |
+| `zread generate` | 为当前目录生成项目文档 |
+| `zread browse` | 在浏览器打开当前项目已生成的文档 |
+| `zread login` | 登录账号或配置 API key |
+| `zread config` | 查看或修改 CLI 配置 |
+| `zread update` | 更新 CLI 到最新版本 |
+| `zread version` | 查看当前 CLI 版本 |
+
+如需查看完整帮助信息，可以运行：
+
 ```bash
-# 交互式浏览（默认）
-zread <目录名>
-
-# 查看帮助
 zread --help
-
-# 指定特定版本（如果支持）
-zread <目录名> --version <版本号>
 ```
 
 ## 各模块简介
@@ -99,7 +135,12 @@ TensorFlow MUSA 扩展（tf_musa_ext）Wiki：
 
 ## 贡献与更新
 
-各模块的内容通过 ZRead 工具生成和管理。如需更新，请使用 ZRead 的生成命令重新构建 wiki 内容。
+各模块的内容通过 ZRead 工具生成和管理。如需更新，请进入对应目录后使用 ZRead 的生成命令重新构建 wiki 内容：
+
+```bash
+cd <目录名>
+zread generate
+```
 
 ---
 
