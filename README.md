@@ -10,6 +10,7 @@
 | [`GPU生态指南/`](GPU生态指南/) | GPU 计算生态（CUDA / MUSA）全景指南 | `cd GPU生态指南 && zread browse` |
 | [`horovod/`](horovod/) | Horovod + MCCL 分布式训练指南 | `cd horovod && zread browse` |
 | [`wiki-tf_musa_ext/`](wiki-tf_musa_ext/) | TensorFlow MUSA 扩展（tf_musa_ext）Wiki | `cd wiki-tf_musa_ext && zread browse` |
+| [`常用工具/`](常用工具/) | 常用开发工具使用详解（Git、Tmux、sshpass、Linux命令） | 直接阅读 Markdown 文档 |
 
 ## 使用 ZRead 阅读
 
@@ -53,6 +54,9 @@ zread
 # 阅读 TensorFlow MUSA 扩展 Wiki
 cd wiki-tf_musa_ext
 zread
+
+# 阅读常用工具文档（直接打开 Markdown 文件）
+cd 常用工具
 ```
 
 如果已经生成过文档，想在浏览器中直接打开：
@@ -132,6 +136,13 @@ TensorFlow MUSA 扩展（tf_musa_ext）Wiki：
 - Kernel 注册与算子分发流程
 - 算子融合、图优化与性能剖析
 - 测试框架与调试工具
+
+### 常用工具
+常用开发工具使用详解，包含以下文档：
+- **Git 工具使用**：Git 基础配置、仓库操作、分支管理、远程仓库、标签、变基、工作流、常见问题等
+- **Tmux 工具使用**：Tmux 安装、会话/窗口/面板管理、复制模式、配置文件、插件、实用技巧等
+- **sshpass 使用**：sshpass 安装、密码传递方式、批量管理、自动化脚本、安全最佳实践等
+- **Linux 常用命令**：文件操作、文本处理、系统管理、网络管理、压缩归档、磁盘管理、软件包管理等
 
 ## 贡献与更新
 
